@@ -2,6 +2,7 @@ package ClientTasks.models;
 
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.config.Task;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = User.TABLE_NAME)
 
-public final class User {
+public class User {
     public static final String TABLE_NAME = "users";
 
     public interface CreateUser{}
@@ -23,12 +24,9 @@ public final class User {
     private Long id;
 
     @Column(name = "USERNAME", unique = true, length =  100, nullable = false)
-    @NotNull
     private String username;
 
     @Column(name = "PASSWORD", length = 60, nullable = false)
-    @NotNull
-
     private String password;
 
     //private ArrayList<Task> tasks = new ArrayList<Task>();
