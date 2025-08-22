@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +47,10 @@ public class TaskService {
     public void DeleteTask(Long id) {
         FindById(id);
 
+    }
+
+    public List<Tasks> findAllByUserId(Long userId) {
+        List<Tasks> tasks = this.taskRepository.findByUser_Id(userId);
+        return  tasks;
     }
 }

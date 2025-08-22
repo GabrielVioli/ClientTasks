@@ -46,6 +46,9 @@ public class User {
         return this.id;
     }
 
+    public User() {
+    }
+
     public void setUsername(String username)  {
         this.username = username;
     }
