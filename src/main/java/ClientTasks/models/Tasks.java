@@ -2,7 +2,6 @@ package ClientTasks.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Table(name = "Tasks")
@@ -23,7 +22,7 @@ public class Tasks {
     @Size(min = 1, max  = 255)
     private String description;
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
