@@ -3,7 +3,7 @@ package ClientTasks.models;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.config.Task;
+import ClientTasks.models.Tasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,6 @@ import java.util.Objects;
 public class User {
     public static final String TABLE_NAME = "users";
 
-    public interface CreateUser{}
-    public interface UpdateUser{}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +27,9 @@ public class User {
     @Column(name = "PASSWORD", length = 60, nullable = false)
     private String password;
 
-    //private ArrayList<Task> tasks = new ArrayList<Task>();
+    @OneToMany(mappedBy = "user")
+    private ArrayList<Tasks> tasks = new ArrayList<Tasks>();
 
-    public User() {
-    }
 
     public User(long id, String username, String password) {
         this.id = id;
@@ -52,6 +49,12 @@ public class User {
     public String getPassword() {
         return this.password;
     }
+    public void setTasks(ArrayList list) {
+        this.tasks = list;
+    }
+    public ArrayList getTasks() {
+        return this.tasks;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -64,4 +67,6 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, username, password);
     }
+
+
 }
