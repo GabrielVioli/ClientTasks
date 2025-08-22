@@ -1,5 +1,6 @@
 package ClientTasks.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,8 +28,8 @@ public class User {
     @Column(name = "PASSWORD", length = 60, nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private ArrayList<Tasks> tasks = new ArrayList<Tasks>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tasks> tasks = new ArrayList<>();
 
 
     public User(long id, String username, String password) {
@@ -60,7 +61,9 @@ public class User {
     public void setTasks(ArrayList list) {
         this.tasks = list;
     }
-    public ArrayList getTasks() {
+
+    @JsonIgnore
+    public List<Tasks> getTasks() {
         return this.tasks;
     }
 
