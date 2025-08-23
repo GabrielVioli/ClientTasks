@@ -10,18 +10,24 @@ async function createUser() {
         return;
     }
 
-    const res = await fetch(`${apiUrl}/user`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ username, password })
-    });
+    try {
+        const res = await fetch(`${apiUrl}/user`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ username, password })
+        });
 
-    if (res.ok) {
-        alert("Usuário criado com sucesso!");
-        document.getElementById("newUsername").value = "";
-        document.getElementById("newPassword").value = "";
-    } else {
-        alert("Erro ao criar usuário");
+        if (res.ok) {
+            alert("Usuário criado com sucesso!");
+            document.getElementById("newUsername").value = "";
+            document.getElementById("newPassword").value = "";
+        } else {
+            const text = await res.text();
+            alert("Erro ao criar usuário: " + text);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erro na requisição");
     }
 }
 
@@ -38,25 +44,24 @@ async function loginUser() {
     }
 
     try {
-        const res = await fetch(`${apiUrl}/user/username/${username}`);
-        if (res.status === 404) {
-            loginResult.textContent = "Usuário não encontrado";
-            loginResult.style.color = "red";
-            return;
-        }
-        if (!res.ok) throw new Error("Erro ao buscar usuário");
+        const res = await fetch(`${apiUrl}/user/login`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ username, password })
+        });
 
-        const user = await res.json();
+        const text = await res.text();
 
-        if (user.password === password) {
-            loginResult.textContent = "Successfully!";
+        if (res.ok) {
+            loginResult.textContent = text;  // "Login successful"
             loginResult.style.color = "green";
         } else {
-            loginResult.textContent = "Senha incorreta";
+            loginResult.textContent = text;  // "Senha incorreta" ou "Usuário não encontrado"
             loginResult.style.color = "red";
         }
-
     } catch (err) {
         console.error(err);
         loginResult.textContent = "Erro na requisição";
-        loginResult.style.color = "r
+        loginResult.style.color = "red";
+    }
+}
