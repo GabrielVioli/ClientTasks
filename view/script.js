@@ -53,10 +53,33 @@ async function loginUser() {
         const text = await res.text();
 
         if (res.ok) {
-            loginResult.textContent = text;  // "Login successful"
+            window.location.href = "pag2.html";
+        } else {
+            loginResult.textContent = text;
+            loginResult.style.color = "red";
+        }
+    } catch (err) {
+        console.error(err);
+        loginResult.textContent = "Erro na requisição";
+        loginResult.style.color = "red";
+    }
+}
+
+
+    try {
+        const res = await fetch(`${apiUrl}/user/login`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ username, password })
+        });
+
+        const text = await res.text();
+
+        if (res.ok) {
+            loginResult.textContent = text;
             loginResult.style.color = "green";
         } else {
-            loginResult.textContent = text;  // "Senha incorreta" ou "Usuário não encontrado"
+            loginResult.textContent = text;
             loginResult.style.color = "red";
         }
     } catch (err) {
