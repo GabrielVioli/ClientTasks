@@ -1,4 +1,4 @@
-const apiUrl = "https://db4dc7b98ef2.ngrok-free.app"; // coloque seu link ngrok aqui
+const apiUrl = "https://db4dc7b98ef2.ngrok-free.app"; // seu link ngrok
 
 // Criar usuário
 async function createUser() {
@@ -38,17 +38,15 @@ async function loginUser() {
     }
 
     try {
-        // Buscar usuário pelo ID (ou você pode criar um endpoint pra buscar por username)
-        const res = await fetch(`${apiUrl}/user`); // aqui vai buscar todos e filtrar
-        if (!res.ok) throw new Error("Erro ao buscar usuário");
-        const users = await res.json();
-
-        const user = users.find(u => u.username === username);
-        if (!user) {
+        const res = await fetch(`${apiUrl}/user/username/${username}`);
+        if (res.status === 404) {
             loginResult.textContent = "Usuário não encontrado";
             loginResult.style.color = "red";
             return;
         }
+        if (!res.ok) throw new Error("Erro ao buscar usuário");
+
+        const user = await res.json();
 
         if (user.password === password) {
             loginResult.textContent = "Successfully!";
@@ -61,6 +59,4 @@ async function loginUser() {
     } catch (err) {
         console.error(err);
         loginResult.textContent = "Erro na requisição";
-        loginResult.style.color = "red";
-    }
-}
+        loginResult.style.color = "r
