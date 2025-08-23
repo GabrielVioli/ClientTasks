@@ -7,24 +7,25 @@
 </head>
 <body>
 <div class="container">
-    <h1></h1>
+    <h1>App de Tarefas</h1>
 
     <section class="card">
         <h2>Criar Usuário</h2>
         <input type="text" id="newUsername" placeholder="Nome de usuário">
         <input type="password" id="newPassword" placeholder="Senha">
-        <button onclick="createUser()">Cadastrar</button>
+        <button id="btnCreateUser">Cadastrar</button>
     </section>
 
     <section class="card">
         <h2>Login Usuário</h2>
         <input type="text" id="loginUsername" placeholder="Nome de usuário">
         <input type="password" id="loginPassword" placeholder="Senha">
-        <button onclick="loginUser()">Entrar</button>
+        <button id="btnLoginUser">Entrar</button>
         <p id="loginResult"></p>
     </section>
 </div>
 
-<script src="script.js"></script>
+<!-- Coloque o script aqui no final do body -->
+<script type="module" src="script.js"></script>
 </body>
 </html>
