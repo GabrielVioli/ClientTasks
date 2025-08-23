@@ -2,38 +2,28 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Client Tasks</title>
+    <title>Login Client Tasks</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Gerenciador de tarefas</h1>
+<div class="container">
+    <h1>💼 Client Tasks</h1>
 
-<section>
-    <h2>Criar Usuário</h2>
-    <input type="text" id="username" placeholder="Nome de usuário">
-    <input type="password" id="password" placeholder="Senha">
-    <button onclick="createUser()">Cadastrar</button>
-</section>
+    <section class="card">
+        <h2>Criar Usuário</h2>
+        <input type="text" id="newUsername" placeholder="Nome de usuário">
+        <input type="password" id="newPassword" placeholder="Senha">
+        <button onclick="createUser()">Cadastrar</button>
+    </section>
 
-<section>
-    <h2>Usuários</h2>
-    <button onclick="loadUsers()">Carregar Usuários</button>
-    <ul id="userList"></ul>
-</section>
-
-<section>
-    <h2>Criar Tarefa</h2>
-    <input type="number" id="taskUserId" placeholder="ID do Usuário">
-    <input type="text" id="description" placeholder="Descrição da tarefa">
-    <button onclick="createTask()">Adicionar</button>
-</section>
-
-<section>
-    <h2>Tarefas do Usuário</h2>
-    <input type="number" id="userIdTasks" placeholder="ID do Usuário">
-    <button onclick="loadTasks()">Carregar Tarefas</button>
-    <ul id="taskList"></ul>
-</section>
+    <section class="card">
+        <h2>Login Usuário</h2>
+        <input type="text" id="loginUsername" placeholder="Nome de usuário">
+        <input type="password" id="loginPassword" placeholder="Senha">
+        <button onclick="loginUser()">Entrar</button>
+        <p id="loginResult"></p>
+    </section>
+</div>
 
 <script src="script.js"></script>
 </body>

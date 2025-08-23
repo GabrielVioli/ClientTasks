@@ -1,73 +1,66 @@
-const apiUrl = "https://db4dc7b98ef2.ngrok-free.app";
+const apiUrl = "https://db4dc7b98ef2.ngrok-free.app"; // coloque seu link ngrok aqui
 
+// Criar usuário
 async function createUser() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+    const username = document.getElementById("newUsername").value;
+    const password = document.getElementById("newPassword").value;
 
-  const res = await fetch(`${apiUrl}/user`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ username, password })
-  });
+    if (!username || !password) {
+        alert("Preencha todos os campos!");
+        return;
+    }
 
-  if (res.ok) {
-    alert("Usuário criado com sucesso!");
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    loadUsers();
-  } else {
-    alert("Erro ao criar usuário");
-  }
+    const res = await fetch(`${apiUrl}/user`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ username, password })
+    });
+
+    if (res.ok) {
+        alert("Usuário criado com sucesso!");
+        document.getElementById("newUsername").value = "";
+        document.getElementById("newPassword").value = "";
+    } else {
+        alert("Erro ao criar usuário");
+    }
 }
 
-async function loadUsers() {
-  const userList = document.getElementById("userList");
-  userList.innerHTML = "";
+// Login usuário
+async function loginUser() {
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    const loginResult = document.getElementById("loginResult");
 
-  const res = await fetch(`${apiUrl}/user/1`); // apenas para teste de busca
-  if (!res.ok) {
-    userList.innerHTML = "<li>Nenhum usuário encontrado</li>";
-    return;
-  }
+    if (!username || !password) {
+        loginResult.textContent = "Preencha todos os campos!";
+        loginResult.style.color = "red";
+        return;
+    }
 
-  const user = await res.json();
-  userList.innerHTML = `<li>ID: ${user.id} - ${user.username}</li>`;
-}
+    try {
+        // Buscar usuário pelo ID (ou você pode criar um endpoint pra buscar por username)
+        const res = await fetch(`${apiUrl}/user`); // aqui vai buscar todos e filtrar
+        if (!res.ok) throw new Error("Erro ao buscar usuário");
+        const users = await res.json();
 
-async function createTask() {
-  const userId = document.getElementById("taskUserId").value;
-  const description = document.getElementById("description").value;
+        const user = users.find(u => u.username === username);
+        if (!user) {
+            loginResult.textContent = "Usuário não encontrado";
+            loginResult.style.color = "red";
+            return;
+        }
 
-  const res = await fetch(`${apiUrl}/task`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ description, user: { id: userId } })
-  });
+        if (user.password === password) {
+            loginResult.textContent = "Successfully!";
+            loginResult.style.color = "green";
+        } else {
+            loginResult.textContent = "Senha incorreta";
+            loginResult.style.color = "red";
+        }
 
-  if (res.ok) {
-    alert("Tarefa criada!");
-    document.getElementById("description").value = "";
-    loadTasks();
-  } else {
-    alert("Erro ao criar tarefa");
-  }
-}
-
-async function loadTasks() {
-  const userId = document.getElementById("userIdTasks").value;
-  const taskList = document.getElementById("taskList");
-  taskList.innerHTML = "";
-
-  const res = await fetch(`${apiUrl}/task/user/${userId}`);
-  if (!res.ok) {
-    taskList.innerHTML = "<li>Nenhuma tarefa encontrada</li>";
-    return;
-  }
-
-  const tasks = await res.json();
-  tasks.forEach(t => {
-    const li = document.createElement("li");
-    li.textContent = `#${t.id} - ${t.description}`;
-    taskList.appendChild(li);
-  });
+    } catch (err) {
+        console.error(err);
+        loginResult.textContent = "Erro na requisição";
+        loginResult.style.color = "red";
+    }
 }
