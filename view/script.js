@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:8080";
+const apiUrl = "https://db4dc7b98ef2.ngrok-free.app";
 
 async function createUser() {
   const username = document.getElementById("username").value;
