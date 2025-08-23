@@ -24,6 +24,12 @@ public class UserService {
         ));
     }
 
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findAll().stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst();
+    }
+
 
     @Transactional
     public User CreateUser(User obj) {
