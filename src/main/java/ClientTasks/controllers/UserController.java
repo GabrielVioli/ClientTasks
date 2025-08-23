@@ -32,21 +32,6 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User login) {
-        Optional<User> optionalUser = userService.findByUsername(login.getUsername());
-        if (optionalUser.isEmpty()) {
-            return ResponseEntity.status(404).body("Usuário não encontrado");
-        }
-
-        User user = optionalUser.get();
-        if (user.getPassword().equals(login.getPassword())) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(401).body("Senha incorreta");
-        }
-    }
-
 
     @PostMapping
     @Validated
