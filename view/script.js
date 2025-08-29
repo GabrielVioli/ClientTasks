@@ -1,7 +1,6 @@
-const apiUrl = "https://db4dc7b98ef2.ngrok-free.app"; // atualize sempre que o ngrok mudar
+const apiUrl = "https://db4dc7b98ef2.ngrok-free.app";
 const loginResult = document.getElementById("loginResult");
 
-// Função para criar usuário
 async function createUser() {
     const username = document.getElementById("newUsername").value.trim();
     const password = document.getElementById("newPassword").value.trim();
